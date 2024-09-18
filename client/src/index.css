@@ -1,0 +1,260 @@
+/* .ant-card-box{
+    box-shadow: 0px 3px 3px -2px rgba(0, 0, 0, 0.2), 0px 3px 4px 0px rgba(0, 0, 0, 0.14), 0px 1px 8px 0px rgba(0, 0, 0, 0.12) !important;
+} */
+
+/* .img{
+    width: 100%;
+} */
+
+.block-link{
+    width: 100%;
+    height: 200px;
+}
+
+#page-content{
+    min-height: 90dvh !important;
+}
+
+.silex-form__element h2{
+    margin-bottom: 0.5rem !important;
+}
+
+.silex-list__item__header h4{
+    margin-bottom: 0.5rem !important;
+}
+
+.silex-form__group{
+    margin-bottom: 0.8rem !important;
+}
+
+.iif-footer-options-block--size{
+    display: none !important;
+}
+
+.iif-block--search{
+    cursor: pointer !important;
+}
+
+/* Vertical scrollbar */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Horizontal scrollbar */
+::-webkit-scrollbar-horizontal {
+    height: 5px !important;
+}
+ 
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+ 
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.border-b{
+    border-bottom: rgb(206, 206, 206) 1px solid !important;
+}
+
+.border-r, .border-b{
+    border-right: rgb(206, 206, 206) 1px solid !important;
+}
+
+body.dark .border-b{
+    border-bottom: rgb(255, 255, 255) 1px solid !important;
+}
+
+body.dark .ant-notification-notice,
+body.dark .ant-notification-notice-message,
+body.dark .ant-notification-notice-description,
+body.dark .ant-notification-notice-close
+{
+    background-color:  #373737 !important;
+    color: #ffffff !important;
+
+}
+
+body.dark .border-r{
+    border-right: rgb(255, 255, 255) 1px solid !important;
+}
+/* 
+body{
+    overflow: hidden !important;
+} */
+
+.ant-card-pro {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24) !important;
+    transition: all 0.3s cubic-bezier(.25, .8, .25, 1) !important;
+}
+
+.ant-card-pro:hover {
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.175), 0 10px 10px rgba(0, 0, 0, 0.126) !important;
+}
+
+.container-course {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+:where(.css-dev-only-do-not-override-1c0na6j).ant-select-single.ant-select-lg .ant-select-selector .ant-select-selection-search-input{
+    font-size: 16px !important;
+}
+
+@media screen and (max-width: 1140px) {
+    .container-course {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+
+@media screen and (max-width: 520px) {
+    /* section {
+        width: 100% !important;
+    }
+     */
+    .container-course {
+        grid-template-columns: repeat(1, 1fr) !important;
+    }
+}
+
+section {
+    width: calc(min(110rem, 95%));
+    margin-top: 6rem;
+    margin-bottom: 1.25rem;
+    margin-inline: auto;
+    color: #000000;
+}
+
+body.dark {
+    background: #000000;
+    color: #ffffff !important;
+}
+
+body.dark .icon-display,
+body.dark .dropdown__item {
+    color: #ffffff !important;
+}
+
+/* Packery -- Draggabilly */
+.grid>.grid-item>img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.grid {
+    max-width: 100%;
+}
+
+.grid:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.grid-item {
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+.grid-sizer {
+    width: 12.5%;
+}
+
+.grid-item--width1 {
+    width: 12.5%;
+}
+
+.grid-item--width2 {
+    width: 25%;
+}
+
+.grid-item--width3 {
+    width: 37.5%;
+}
+
+.grid-item--width4 {
+    width: 50%;
+}
+
+.grid-item--width6 {
+    width: 75%;
+}
+
+.grid-item--width9 {
+    width: 100%;
+}
+
+
+
+.grid-item:hover {
+    border-color: hsla(0, 0%, 100%, 0.5);
+    cursor: pointer;
+}
+
+.grid-item.is-dragging,
+.grid-item.is-positioning-post-drag {
+    background: #C90;
+    z-index: 2;
+}
+
+.packery-drop-placeholder {
+    outline: 3px dashed hsla(0, 0%, 0%, 0.5);
+    outline-offset: -6px;
+    -webkit-transition: -webkit-transform 0.2s;
+    transition: transform 0.2s;
+}
+
+.order-number {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(255, 255, 255);
+    border: 1px solid rgb(255, 255, 255);
+    width: 30px;
+    height: 30px;
+}
+
+@media (max-width: 992px) {
+    .grid-sizer {
+        width: 25% !important;
+        height: auto;
+    }
+
+    .grid-item--width1 {
+        width: 25% !important;
+    }
+
+    .grid-item--width2 {
+        width: 50% !important;
+    }
+
+    .grid-item--width3 {
+        width: 75% !important;
+    }
+
+    .grid-item--width4 {
+        width: 100% !important;
+    }
+
+    .grid-item--width6 {
+        width: 100% !important;
+    }
+}
+
+@media (max-width: 549px) {
+    .grid-item {
+        width: 100% !important;
+        height: auto !important;
+    }
+}

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
+    <title>Tự học 3D</title>
+
+    <style>
+      .is-nav-selected .f-thumbs__slide__button .f-thumbs__slide__img {
+        filter: none;
+        border: 2px solid #ffffff;
+      }
+  
+      .f-thumbs__slide__img {
+        filter: grayscale(100%);
+      }
+  
+      [data-fancybox="gallery"] {
+        cursor: pointer;
+        width: 100%;  
+      }
+    </style>
+
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+    <script>
+      self.ModelViewerElement = self.ModelViewerElement || {};
+      self.ModelViewerElement.meshoptDecoderLocation =
+        "https://cdn.jsdelivr.net/npm/meshoptimizer/meshopt_decoder.js";
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/packery/2.1.1/packery.pkgd.js"></script>
+    <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+ 
+    <script>
+      Fancybox.bind('[data-fancybox="gallery"]', { });    
+    </script>
+  </body>
+</html>
