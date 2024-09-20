@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import LayoutAdmin from '~/components/layout/Admin/Layout'
 import GrapeJs from '~/components/grapeJs/GrapeJs'
 import { useNavigate, useParams } from 'react-router-dom';
@@ -18,6 +18,7 @@ import pluginFlexbox from '~/components/grapeJs/Custom/Block/FlexBox/';
 import pluginFlexrow from '~/components/grapeJs/Custom/Block/FlexRow';
 import SkeletonGrapeJs from '~/components/loading/SkeletonGrapeJs';
 import BlockUser from '~/components/grapeJs/Custom/BlockUser';
+import testBlock from '~/components/grapeJs/Plugins/src/index';
 
 import { Block } from '~/components/grapeJs/Block';
 import { Styles } from '~/components/grapeJs/Style';
@@ -34,6 +35,7 @@ import { getPluginsScriptApi } from '~/redux/slices/Data/pluginsScriptSlice';
 import { Button } from 'antd';
 
 import { TbArrowBack } from "react-icons/tb";
+import { getPluginsApi } from '~/redux/slices/Data/pluginsSlice';
 
 const Pages = () => {
     const params = useParams();
@@ -45,6 +47,15 @@ const Pages = () => {
     const dispatch = useDispatch();
     const datascript = useSelector((state) => state.pluginsScript.pluginsScript);
     const loadingscript = useSelector((state) => state.pluginsScript.loading);
+    const { plugins, loading: loadingPlugins } = useSelector((state) => state.plugins);
+
+    const dataPlugins = useMemo(() =>
+        plugins.map((groupPage) => ({
+            id: groupPage.id,
+            src: `${baseURL}/uploads/${groupPage.src}`,
+        })),
+        [plugins]
+    );
 
     const configGrapeJs = (editor) => {
         editor.on('component:add', (model) => {
@@ -201,6 +212,12 @@ const Pages = () => {
     }, []);
 
     useEffect(() => {
+        if (loadingPlugins === true) {
+            dispatch(getPluginsApi());
+        }
+    }, []);
+
+    useEffect(() => {
         fetchData();
     }, []);
 
@@ -218,7 +235,7 @@ const Pages = () => {
                 <SkeletonGrapeJs />
             )}
 
-            {!loading && datascript[0]?.scripts && (
+            {!loading && !loadingPlugins && datascript[0]?.scripts && (
                 <>
                     <GrapeJs
                         data={page.edit || ''}
@@ -229,20 +246,7 @@ const Pages = () => {
                         folder={page.name}
                         scripts={datascript[0]?.scripts}
                         styles={datascript[0]?.styles}
-                        pluginss={[
-                            {
-                                id: 'grapesjs-component-icon',
-                                src: 'http://localhost:8082/plugins/Icon/Index.js',
-                            },
-                            {
-                                id: '@silexlabs/grapesjs-filter-styles',
-                                src: 'https://unpkg.com/@silexlabs/grapesjs-filter-styles@1.0.0/dist/index.js',
-                            },
-                            {
-                                id: 'grapesjs-parser-postcss',
-                                src: 'https://unpkg.com/grapesjs-parser-postcss@1.0.3/dist/index.js',
-                            },
-                        ]}
+                        pluginss={dataPlugins}
                         plugins={[
                             // grapesjsIcons,
                             pluginWebpage,
@@ -261,7 +265,8 @@ const Pages = () => {
                             BlockUser,
                             Styles.customType,
                             Styles.customTypeSelect,
-                            pluginSwiper
+                            pluginSwiper,
+                            testBlock,
                         ]}
                         pluginsOpts={{
                             [pluginFont]: {

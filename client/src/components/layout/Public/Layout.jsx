@@ -7,7 +7,7 @@ import { fetchMenu } from '~/redux/slices/menuSlice';
 
 import './Layout.css';
 import 'animate.css';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 const LayoutPublic = ({
     title = "Wood 3D",
@@ -18,13 +18,16 @@ const LayoutPublic = ({
 }) => {
     const { '*': path } = useParams();
     const navigate = useNavigate();
-
-    // Mobile Menu
-    const [open, setOpen] = useState(false);
-
+    const { pathname } = useLocation();
     const dispatch = useDispatch();
+
+    const [open, setOpen] = useState(false);
     const menuItems = useSelector((state) => state.menu);
     const menuStatus = useSelector((state) => state.menu.status);
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [pathname]);
 
     useEffect(() => {
         const handleLinkClick = (event) => {
@@ -32,7 +35,6 @@ const LayoutPublic = ({
             if (target && target.href) {
                 const url = new URL(target.href);
                 const relativePath = url.pathname + url.search + url.hash;
-
                 if (url.origin === window.location.origin) {
                     event.preventDefault();
                     navigate(relativePath);
@@ -50,7 +52,7 @@ const LayoutPublic = ({
                 container.removeEventListener('click', handleLinkClick);
             }
         };
-    }, []);
+    }, [navigate]);
 
     useEffect(() => {
         if (menuStatus === 'idle') {
@@ -83,7 +85,7 @@ const LayoutPublic = ({
                 </>
             )}
 
-            <div style={{ minHeight: 'calc(90vh - 6rem)' }}>
+            <div style={{ minHeight: 'calc(93vh - 6rem)' }}>
                 {children}
             </div>
             <div dangerouslySetInnerHTML={{ __html: menuItems?.menuItems?.footer }} />

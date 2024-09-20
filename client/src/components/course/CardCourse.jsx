@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Card, Col, Drawer, Empty, Row, Skeleton, Typography } from 'antd';
 import { motion } from 'framer-motion';
 import { NavLink, useNavigate } from 'react-router-dom';
@@ -12,6 +12,7 @@ import { FaCartShopping, FaStarHalfStroke } from 'react-icons/fa6';
 import { addToCart } from '~/redux/slices/cartSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdSlowMotionVideo } from "react-icons/md";
+import { baseURL } from '~/utils';
 
 import './Card.css';
 import '~/pages/public/Cart/Cart.css';
@@ -39,7 +40,7 @@ const CardCourse = ({ loading, info = '', carts = '', height = '15.75rem', ellip
                     <Skeleton.Image className="!w-full !h-full" active={true} />
                   )}
                   <motion.img
-                    src={info.image || "https://images.unsplash.com/photo-1601049676869-702ea24cfd58?q=80&w=2073&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
+                    src={`${baseURL}/uploads/${info.img}`}
                     alt={info.alt || 'Ảnh khóa học Tự học 3D'}
                     style={{ display: loading ? "none" : "block" }}
                     whileHover={{ scale: 1.3 }}

@@ -1,7 +1,14 @@
 import coursesSchema from "~/models/coursesModel.js";
 import { addData, updateData, deleteData, getData, getSigData } from "./indexControllder";
+import fs from 'fs';
+import path from 'path';
+import { StatusCodes } from "http-status-codes";
+
+// Image
+import sharp from 'sharp';
 
 const nameMess = 'Khóa học';
+const uploadDir = path.join(__dirname, '../public/uploads/course');
 
 const sigCourser = async (req, res, next) => {
     try {
@@ -123,6 +130,43 @@ const searchCourses = async (req, res, next) => {
     }
 }
 
+const addImageCourses = async (req, res, next) => {
+    try {
+        const { folder } = req.body;
+        if (!folder) {
+            return res.status(StatusCodes.BAD_REQUEST).json({ message: 'Folder name is required' });
+        }
+
+        const file = req.file.path;
+        const fileName = req.file.filename;
+        const fileNameOutput = `compress-${fileName}`;
+
+        if (!file) return res.status(StatusCodes.BAD_REQUEST).json({ message: 'Không có File được tải lên' });
+
+        const folderPath = path.join(uploadDir, folder);
+        if (!fs.existsSync(folderPath)) {
+            await fs.promises.mkdir(folderPath, { recursive: true });
+        }
+
+        const outputPath = path.join(folderPath, fileNameOutput);
+        const fileSize = req.file.size;
+        if (fileSize > 1 * 1024 * 1024) {
+            await sharp(fs.readFileSync(file))
+                .toFormat('jpeg')
+                .jpeg({ quality: 80 })
+                .toFile(outputPath);
+            await fs.promises.unlink(file);
+            res.status(StatusCodes.OK).json(`course/${folder}/${fileNameOutput}`);
+        } else {
+            const newFilePath = path.join(folderPath, fileName);
+            await fs.promises.rename(file, newFilePath);
+            res.status(StatusCodes.OK).json(`course/${folder}/${fileName}`);
+        }
+    } catch (error) {
+        next(error);
+    }
+}
+
 export const courserController = {
     sigCourser,
     addCourser,
@@ -131,7 +175,8 @@ export const courserController = {
     putCourser,
     delCourser,
     allCourserCart,
-    outstandCourse
+    outstandCourse,
+    addImageCourses
 }
 
 export const searchCourserController = {

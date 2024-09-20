@@ -18,6 +18,7 @@ import categoryCoursesSlice from "./slices/Data/categoryCourseSlice";
 import coursesOutstandSlice from "./slices/Data/coursesOutstandSlice"
 import orderSlice from "./slices/Data/orderSlice";
 import revenueSlice from "./slices/Data/revenueSlice";
+import pluginsSlice from "./slices/Data/pluginsSlice";
 
 const saveToLocalStorage = (state) => {
   try {
@@ -69,6 +70,7 @@ export const store = configureStore({
     outstand: coursesOutstandSlice,
     order: orderSlice,
     revenue: revenueSlice,
+    plugins: pluginsSlice,
   },
   preloadedState: persistedState,
 });

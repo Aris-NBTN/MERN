@@ -176,8 +176,8 @@
                     },
                     maxWidth: "100%",
                     maxHeight: "600px",
-                    script: ["http://localhost:8082/plugins/Icon/Search.js"],
-                    style: ["http://localhost:8082/plugins/Icon/Index.css"]
+                    script: ["https://www.tranhgohoangminh.com/uploads/plugins/ev/1726810394164.js"],
+                    style: ["https://www.tranhgohoangminh.com/uploads/plugins/ev/1726810394166.css"]
                 }), e),
                 o = n.script,
                 r = n.style,

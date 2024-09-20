@@ -1,5 +1,5 @@
 {
-  "name": "gjs-swiper",
+  "name": "gjs-col",
   "main": "dist/index.js",
   "scripts": {
     "start": "grapesjs-cli serve",
@@ -13,5 +13,5 @@
   "dependencies": {
     "grapesjs-cli": "^4.1.3"
   },
-  "version": "0.0.40"
+  "version": "0.0.42"
 }

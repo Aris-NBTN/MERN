@@ -1,5 +1,4 @@
 import { StatusCodes } from "http-status-codes";
-import slugify from "slugify";
 import pluginsScriptModel from "~/models/pluginsScriptModel";
 
 const addPluginsScript = async (req, res, next) => {

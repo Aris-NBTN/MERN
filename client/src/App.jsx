@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import { Route, Routes, useLocation } from "react-router-dom";
 
 // Antd
@@ -84,8 +84,6 @@ function App() {
 
   const darkMode = useSelector((state) => state.theme.darkMode);
   const compact = useSelector((state) => state.compact.compactMode);
-  const user = useSelector((state) => state.auth.user);
-
   const { darkAlgorithm, defaultAlgorithm, compactAlgorithm } = theme;
 
   const isAdminRoute = (pathname) => {
@@ -132,7 +130,7 @@ function App() {
           </FloatButton.Group>
         )}
 
-        <FloatButton.BackTop duration={550} visibilityHeight={100} style={{ right: 25, bottom: 70, zIndex: 4 }} />
+        <FloatButton.BackTop duration={700} visibilityHeight={100} style={{ right: 25, bottom: 70, zIndex: 4 }} />
 
         <Suspense fallback={isAdminRoute(location.pathname) ? <SkeletonAdmin /> : <SkeletonPublic />}>
           <Routes>
@@ -191,7 +189,7 @@ function App() {
             </Route>
           </Routes>
         </Suspense>
-      </ConfigProvider >
+      </ConfigProvider>
     </>
   )
 }

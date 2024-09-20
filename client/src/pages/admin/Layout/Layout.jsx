@@ -1,20 +1,22 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import LayoutAdmin from '~/components/layout/Admin/Layout'
 import GrapeJs from '~/components/grapeJs/GrapeJs'
 import pluginWebpage from 'grapesjs-preset-webpage';
 import blockBasic from 'grapesjs-blocks-basic';
 import pluginStyleBg from 'grapesjs-style-bg';
 
-import pluginFlexbox from '~/components/grapeJs/Custom/Block/FlexBox/';
+import pluginFlexbox from '~/components/grapeJs/Custom/Block/FlexBox';
 import pluginFlexrow from '~/components/grapeJs/Custom/Block/FlexRow';
+import testBlock from '~/components/grapeJs/Plugins/src/index';
 
 import { Block } from '~/components/grapeJs/Block/index';
 import { layoutApi } from '~/apis/layoutApi';
 import { toastError, toastLoading, toastSuccess } from '~/components/toast';
-import { id_layout } from '~/utils/index'
+import { baseURL, id_layout } from '~/utils/index'
 import { useDispatch, useSelector } from 'react-redux';
 import { getPluginsScriptApi } from '~/redux/slices/Data/pluginsScriptSlice';
 import { Styles } from '~/components/grapeJs/Style';
+import { getPluginsApi } from '~/redux/slices/Data/pluginsSlice';
 
 const Pages = () => {
     const [page, setPage] = useState('');
@@ -22,6 +24,15 @@ const Pages = () => {
 
     const datascript = useSelector((state) => state.pluginsScript.pluginsScript);
     const loadingscript = useSelector((state) => state.pluginsScript.loading);
+    const { plugins, loading: loadingPlugins } = useSelector((state) => state.plugins);
+
+    const dataPlugins = useMemo(() =>
+        plugins.map((groupPage) => ({
+            id: groupPage.id,
+            src: `${baseURL}/uploads/${groupPage.src}`,
+        })),
+        [plugins]
+    );
 
     const dispatch = useDispatch();
 
@@ -132,6 +143,12 @@ const Pages = () => {
         }
     }, []);
 
+    useEffect(() => {
+        if (loadingPlugins === true) {
+            dispatch(getPluginsApi());
+        }
+    }, []);
+
     return (
         <LayoutAdmin
             margin={0}
@@ -141,26 +158,13 @@ const Pages = () => {
                 <div>LOAdding</div>
             )}
 
-            {isLoaded && (
+            {isLoaded && !loadingPlugins && (
                 <GrapeJs
                     height='calc(100vh - 56px)'
                     configGrapeJs={configGrapeJs}
                     scripts={datascript[0]?.scripts}
                     styles={datascript[0]?.styles}
-                    pluginss={[
-                        {
-                            id: 'grapesjs-component-icon',
-                            src: 'http://localhost:8082/plugins/Icon/Indexlayout.js',
-                        },
-                        {
-                            id: '@silexlabs/grapesjs-filter-styles',
-                            src: 'https://unpkg.com/@silexlabs/grapesjs-filter-styles@1.0.0/dist/index.js',
-                        },
-                        {
-                            id: 'grapesjs-parser-postcss',
-                            src: 'https://unpkg.com/grapesjs-parser-postcss@1.0.3/dist/index.js',
-                        },
-                    ]}
+                    pluginss={dataPlugins}
                     plugins={[
                         pluginWebpage,
                         blockBasic,
@@ -173,7 +177,8 @@ const Pages = () => {
                         Block.container,
                         Block.user,
                         Styles.customType,
-                        Styles.customTypeSelect
+                        Styles.customTypeSelect,
+
                     ]}
                     savePage={putPages}
                 />

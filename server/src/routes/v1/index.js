@@ -17,6 +17,7 @@ import { paymentRouter } from './paymentRoute.js'
 import { roleRouter } from './roleRoute.js'
 import { pluginsScriptRouter } from './pluginsScriptRoute.js'
 import { orderRouter } from './orderRoute.js'
+import { pluginsRouter } from './pluginsRoute.js'
 
 const router = express.Router();
 
@@ -39,6 +40,7 @@ router.use('/courser', courserRouter);
 router.use('/payment', paymentRouter);
 router.use('/role', roleRouter);
 router.use('/plugins-script', pluginsScriptRouter);
+router.use('/plugins', pluginsRouter);
 
 
 export default router

@@ -8,7 +8,7 @@ export default defineConfig({
     'process.env': process.env,
   },
   plugins: [react()],
-  build: { chunkSizeWarningLimit: 1600 },
+  // build: { chunkSizeWarningLimit: 1600 },
   resolve: {
     alias: [
       { find: '~', replacement: '/src' },

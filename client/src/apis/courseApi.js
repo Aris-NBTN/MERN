@@ -47,7 +47,6 @@ const search = async (body) => {
     return response
 }
 
-
 export const courseApi = {
     all,
     get,

@@ -19,6 +19,7 @@ import { FormatPrice } from '~/components/table/Format';
 import './Course.css'
 import { addToCart } from '~/redux/slices/cartSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { baseURL } from '~/utils';
 
 const Crouses = () => {
   const slug = useParams()
@@ -427,7 +428,7 @@ const Crouses = () => {
                     <div className="px-5 pt-5">
                       <img
                         className="rounded-md"
-                        src="https://cdn-imgix.headout.com/media/images/c9db3cea62133b6a6bb70597326b4a34-388-dubai-img-worlds-of-adventure-tickets-01.jpg?auto=format&w=814.9333333333333&h=458.4&q=90&ar=16%3A9&crop=faces"
+                        src={`${baseURL}/uploads/${data?.imgDetail}`}
                         alt=""
                       />
                     </div>

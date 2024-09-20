@@ -35,6 +35,9 @@ const coursesSchema = new mongoose.Schema({
     img: {
         type: String,
     },
+    imgDetail: {
+        type: String,
+    },
     benefit: [{
         type: String,
     }],

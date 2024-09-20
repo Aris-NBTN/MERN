@@ -1,58 +1,64 @@
 import { StatusCodes } from "http-status-codes";
 import slugify from "slugify";
-import categoryCourseModel from "~/models/categoryCourseModel.js";
 
-const addCategory = async (req, res, next) => {
+import pluginsModel from "~/models/pluginsModel";
+import jsPluginsModel from "~/models/jsPluginsModel";
+import cssPluginsModel from "~/models/cssPluginsModel";
+import path from 'path';
+
+const addFileEV = async (req, res, next) => {
     try {
-        const { category } = req.body;
-        const existingCategory = await categoryCourseModel.findOne({ category });
-        if (existingCategory) {
-            return res.status(StatusCodes.BAD_REQUEST).json({ message: 'Danh mục đã tồn tại' });
-        }
-        const newCategory = await new categoryCourseModel({ ...req.body, slug: slugify(category) }).save();
-        res.status(StatusCodes.CREATED).json(newCategory);
+        const files = req.files;
+        const promises = files.map(async (file) => {
+            const extension = path.extname(file.originalname).toLowerCase();
+
+            if (extension === '.css') {
+                await cssPluginsModel.create({ link: `/plugins/ev/${file.filename}` });
+            } else if (extension === '.js') {
+                await jsPluginsModel.create({ link: `/plugins/ev/${file.filename}` });
+            } else {
+                throw new Error(`Unsupported file type: ${extension}`);
+            }
+        });
+        await Promise.all(promises);
+        res.status(StatusCodes.CREATED).json({ message: 'Files uploaded successfully' });
+    } catch (error) {
+        next(error);
+    }
+};
+
+const addFilePlugins = async (req, res, next) => {
+    try {
+        const data = { ...req.body, src: `/plugins/${req.file.filename}` };
+        const newData = await new pluginsModel(data).save();
+        res.status(200).json({ message: "Đã thêm plugins", newData: newData });
+    } catch (error) {
+        next(error);
+    }
+};
+
+const all = async (req, res, next) => {
+    try {
+        const allData = await pluginsModel.find({}).sort({ createdAt: -1 });
+        res.status(StatusCodes.CREATED).json(allData);
     } catch (error) {
         next(error);
     }
 }
 
-const allCategory = async (req, res, next) => {
-    try {
-        const allCategory = await categoryCourseModel.find({}).sort({ createdAt: -1 });
-        res.status(StatusCodes.CREATED).json(allCategory);
-    } catch (error) {
-        next(error);
-    }
-}
-
-const delCategory = async (req, res, next) => {
+const del = async (req, res, next) => {
     try {
         const { id } = req.params;
-        await categoryCourseModel.findByIdAndDelete(id)
+        await pluginsModel.findByIdAndDelete(id)
         res.status(StatusCodes.OK).json({ message: 'Đã xóa danh mục!' });
     } catch (error) {
         next(error);
     }
 }
 
-const putCategory = async (req, res, next) => {
-    try {
-        const { id } = req.params;
-        const { category } = req.body;
-        const existingCategory = await categoryCourseModel.findOne({ category });
-        if (existingCategory) {
-            return res.status(StatusCodes.BAD_REQUEST).json({ message: 'Danh mục đã tồn tại' });
-        }
-        await categoryCourseModel.findByIdAndUpdate(id, { ...req.body, slug: slugify(category) }, { new: true });
-        res.status(StatusCodes.OK).json({ message: 'Cập nhập danh mục thành công!' });
-    } catch (error) {
-        next(error);
-    }
-}
-
-export const categoryCourserController = {
-    addCategory,
-    allCategory,
-    putCategory,
-    delCategory,
+export const pluginsController = {
+    addFileEV,
+    addFilePlugins,
+    all,
+    del,
 }

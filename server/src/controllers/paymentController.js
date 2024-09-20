@@ -17,7 +17,7 @@ import querystring from 'qs';
 // VietQR
 import PayOS from '@payos/node';
 
-import { BaseServer } from '~/utils/constants';
+import { BaseClient, BaseServer } from '~/utils/constants';
 
 // const filePath = path.resolve(__dirname, '../json/info.json');
 
@@ -176,7 +176,6 @@ const createQRPayment = async (req, res, next) => {
 }
 
 const testPayment = async (req, res, next) => {
-    const YOUR_DOMAIN = `http://localhost:5173`;
     const { id, product, total } = req.body;
 
     if (!id) return res.status(StatusCodes.BAD_REQUEST).json({ message: "ERROR ID" });
@@ -188,8 +187,8 @@ const testPayment = async (req, res, next) => {
         amount: total,
         items: product,
         description: "Thanh toan don hang",
-        returnUrl: `${YOUR_DOMAIN}/success`,
-        cancelUrl: `${YOUR_DOMAIN}/cancel`,
+        returnUrl: `${BaseClient}/success`,
+        cancelUrl: `${BaseClient}/cancel`,
     };
 
     try {
@@ -202,8 +201,8 @@ const testPayment = async (req, res, next) => {
 
 const checkPayment = async (req, res, next) => {
     const webhookData = payOS.verifyPaymentWebhookData(req.body);
-    console.log(webhookData);
     res.status(StatusCodes.OK).json(webhookData);
+
     if (code == '00') {
         const updateOrder = { status: true, paymentMethod: 'Chuyển Khoản Ngân Hàng' }
         try {

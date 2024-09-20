@@ -1,5 +1,6 @@
 import express from 'express';
 import { courserController, searchCourserController } from '~/controllers/courseController';
+import upload from '~/middlewares/fileMiddleware.js';
 
 const Router = express.Router();
 
@@ -25,5 +26,8 @@ Router.route("/:id")
     .get(courserController.sigCourser)
     .delete(courserController.delCourser)
     .put(courserController.putCourser)
+
+Router.route("/image")
+    .post(upload.single('file'), courserController.addImageCourses)
 
 export const courserRouter = Router;

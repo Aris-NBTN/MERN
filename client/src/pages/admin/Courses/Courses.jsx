@@ -1,4 +1,4 @@
-import { Button, Col, Form, Input, InputNumber, Modal, Row, Select, Tabs, Typography } from 'antd'
+import { Button, Col, Form, Input, InputNumber, Modal, Row, Select, Tabs, Tooltip, Typography } from 'antd'
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 
@@ -15,6 +15,8 @@ import { addCategoryCouresApi, getCategoryCouresApi, delCategoryCouresApi, putCa
 
 import { exportDataExcel } from '~/utils/export';
 import { MdSlowMotionVideo } from "react-icons/md";
+import FileAntd from '~/components/upload/FileAntd';
+import { baseURL } from '~/utils/index'
 
 const Courses = () => {
     const navigate = useNavigate();
@@ -246,7 +248,10 @@ const Courses = () => {
                 centered
                 open={openInFor}
                 onOk={() => formInfo.submit()}
-                onCancel={() => { setOpenInFor(false); formInfo.resetFields(); }}
+                onCancel={() => {
+                    setOpenInFor(false);
+                    formInfo.resetFields();
+                }}
                 confirmLoading={loadingCourses}
                 width={600}
             >
@@ -272,6 +277,7 @@ const Courses = () => {
                         rules={[{ required: true, message: 'Nhập tiêu đề!' }]}
                     >
                         <Input
+                            size='large'
                             className='mb-2'
                             placeholder='Nhập tiêu đề'
                         />
@@ -284,9 +290,21 @@ const Courses = () => {
                         rules={[{ required: true, message: 'Chọn & nhập điều kiện tiên quyết!' }]}
                     >
                         <Select
+                            size='large'
                             className='w-full mb-2'
                             placeholder='Chọn & nhập điều kiện tiên quyết'
                             mode="tags"
+                            maxTagCount='responsive'
+                            maxTagPlaceholder={(omittedValues) => (
+                                <Tooltip
+                                    overlayStyle={{
+                                        pointerEvents: 'none',
+                                    }}
+                                    title={omittedValues.map(({ label }) => label).join(', ')}
+                                >
+                                    <span>+ {omittedValues.length} ...</span>
+                                </Tooltip>
+                            )}
                             tokenSeparators={[',']}
                         />
                     </Form.Item>
@@ -298,9 +316,21 @@ const Courses = () => {
                         rules={[{ required: true, message: 'Chọn & nhập đối tượng khách hàng!' }]}
                     >
                         <Select
+                            size='large'
                             className='w-full mb-2'
                             placeholder='Chọn & nhập đối tượng khách hàng'
                             mode="tags"
+                            maxTagCount='responsive'
+                            maxTagPlaceholder={(omittedValues) => (
+                                <Tooltip
+                                    overlayStyle={{
+                                        pointerEvents: 'none',
+                                    }}
+                                    title={omittedValues.map(({ label }) => label).join(', ')}
+                                >
+                                    <span>+ {omittedValues.length} ...</span>
+                                </Tooltip>
+                            )}
                             tokenSeparators={[',']}
                         />
                     </Form.Item>
@@ -312,9 +342,21 @@ const Courses = () => {
                         rules={[{ required: true, message: 'Chọn & nhập tiêu chí đầu ra!' }]}
                     >
                         <Select
+                            size='large'
                             className='w-full mb-2'
                             placeholder='Chọn & nhập tiêu chí đầu ra'
                             mode="tags"
+                            maxTagCount='responsive'
+                            maxTagPlaceholder={(omittedValues) => (
+                                <Tooltip
+                                    overlayStyle={{
+                                        pointerEvents: 'none',
+                                    }}
+                                    title={omittedValues.map(({ label }) => label).join(', ')}
+                                >
+                                    <span>+ {omittedValues.length} ...</span>
+                                </Tooltip>
+                            )}
                             tokenSeparators={[',']}
                         />
                     </Form.Item>
@@ -326,35 +368,50 @@ const Courses = () => {
                         rules={[{ required: true, message: 'Chọn & nhập lợi ích!' }]}
                     >
                         <Select
+                            size='large'
                             className='w-full mb-2'
                             placeholder='Chọn & nhập lợi ích'
                             mode="tags"
+                            maxTagCount='responsive'
+                            maxTagPlaceholder={(omittedValues) => (
+                                <Tooltip
+                                    overlayStyle={{
+                                        pointerEvents: 'none',
+                                    }}
+                                    title={omittedValues.map(({ label }) => label).join(', ')}
+                                >
+                                    <span>+ {omittedValues.length} ...</span>
+                                </Tooltip>
+                            )}
                             tokenSeparators={[',']}
                         />
                     </Form.Item>
 
-                    <div className="flex mt-2 gap-2">
+                    <div className="flex flex-wrap md:flex-nowrap mt-2 gap-2 justify-center">
                         <Form.Item
                             className='mb-2'
-                            name="benefit"
-                            label="Ảnh"
-                            rules={[{ required: true }]}
+                            label="Ảnh bìa"
                         >
-                            123
-                            {/* <AntdUpload
-                                onSave={handleAddFile}
-                                onDelete={handleRemoveFile}
-                            /> */}
+                            <FileAntd
+                                apiUpload={`${baseURL}/v1/courser/image`}
+                                name='img'
+                                body={formInfo?.getFieldValue('_id')}
+                                fileLists={`${formInfo?.getFieldValue('img')}`}
+                                limit={1}
+                            />
                         </Form.Item>
 
                         <Form.Item
                             className='mb-2'
-                            name="img"
+                            label="Ảnh chi tiết"
                         >
-                            <Input
-                                className='mb-2 hidden'
+                            <FileAntd
+                                apiUpload={`${baseURL}/v1/courser/image`}
+                                name='imgDetail'
+                                body={formInfo.getFieldValue('_id')}
+                                fileLists={`${formInfo.getFieldValue('imgDetail')}`}
+                                limit={1}
                             />
-
                         </Form.Item>
 
                         <Form.Item
@@ -364,10 +421,11 @@ const Courses = () => {
                             rules={[{ required: true, message: 'Nhập mô tả!' }]}
                         >
                             <Input.TextArea
+                                size='large'
                                 className='mb-2'
                                 placeholder="Nhập mô tả"
                                 style={{
-                                    height: 102,
+                                    height: 100,
                                     resize: 'none'
                                 }}
                             />
